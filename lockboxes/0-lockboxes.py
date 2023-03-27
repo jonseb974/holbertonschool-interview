@@ -15,4 +15,4 @@ def canUnlockAll(boxes):
                 seen[key] = True
                 open_boxes.append(key)
 
-            return all(seen)
+    return all(seen)
