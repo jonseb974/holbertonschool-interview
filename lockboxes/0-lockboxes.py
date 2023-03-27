@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 
 def canUnlockAll(boxes):
-    '''This method that determines if all the boxes can be opened.
-       canUnlockAll Keeps track of which boxes we've seen
-       and whether they're open or not.
+    '''
+    This method that determines if all the boxes can be opened.
+    canUnlockAll Keeps track of which boxes we've seen
+    and whether they're open or not.
     '''
     seen = [False] * len(boxes)
     seen[0] = True
