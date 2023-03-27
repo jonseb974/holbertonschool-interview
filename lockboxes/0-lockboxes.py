@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 def canUnlockAll(boxes):
     '''This method that determines if all the boxes can be opened.
        canUnlockAll Keeps track of which boxes we've seen
