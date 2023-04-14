@@ -2,41 +2,59 @@
 """
 0-log_parsing
 """
-import random
+
+
 import sys
+from collections import defaultdict
 
-# Define the possible status codes
-status_codes = [200, 301, 400, 401, 403, 404, 405, 500]
+# 
+def parse_line(line):
+    """
+    Define a function to parse the input line
+    and return the IP address,
+    status code, and file size
+    """
+    parts = line.split()
+    if len(parts) != 7:
+        return None
+    ip_address, _, _, timestamp, _, status_code, file_size = parts
+    try:
+        status_code = int(status_code)
+        file_size = int(file_size)
+    except ValueError:
+        return None
+    return ip_address, status_code, file_size
 
-# Initialize the counters
+# Initialize variables to keep track of the total file size and
+# the number of lines by status code
 total_size = 0
-line_counts = {code: 0 for code in status_codes}
+lines_by_status = defaultdict(int)
+num_lines = 0
 
+# Define a function to print the statistics
+def print_statistics():
+    print(f"Total file size: {total_size}")
+    for status_code in sorted(lines_by_status.keys()):
+        print(f"{status_code}: {lines_by_status[status_code]}")
+
+# Loop over stdin, reading one line at a time
 try:
-    # Read from standard input line by line
-    for i, line in enumerate(sys.stdin):
-        # Skip lines that don't match the expected format
-        try:
-            ip, _, date, request, status_code_str, file_size_str, _ = line.split()
-            status_code = int(status_code_str)
-            file_size = int(file_size_str)
-        except ValueError:
+    for line in sys.stdin:
+        # Parse the input line
+        parsed = parse_line(line.strip())
+        if parsed is None:
             continue
+        ip_address, status_code, file_size = parsed
         
-        # Update the counters
+        # Update the total file size and the number of lines by status code
         total_size += file_size
-        line_counts[status_code] += 1
+        lines_by_status[status_code] += 1
+        num_lines += 1
         
-        # Print the statistics every 10 lines
-        if (i + 1) % 10 == 0:
-            print(f'Total file size: {total_size}')
-            for code in sorted(line_counts.keys()):
-                if line_counts[code] > 0:
-                    print(f'{code}: {line_counts[code]}')
-        
+        # Print statistics every 10 lines
+        if num_lines % 10 == 0:
+            print_statistics()
+            
 except KeyboardInterrupt:
-    # Handle keyboard interruption
-    print(f'Total file size: {total_size}')
-    for code in sorted(line_counts.keys()):
-        if line_counts[code] > 0:
-            print(f'{code}: {line_counts[code]}')
+    # If the user interrupts the script, print the final statistics
+    print_statistics()
