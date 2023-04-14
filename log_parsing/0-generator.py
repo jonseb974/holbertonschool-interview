@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+0-log_parsing
+"""
 import random
 import sys
 from time import sleep
