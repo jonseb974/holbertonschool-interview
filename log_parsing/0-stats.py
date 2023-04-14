@@ -34,8 +34,10 @@ lines_by_status = defaultdict(int)
 num_lines = 0
 
 
-# Define a function to print the statistics
 def print_statistics():
+    """
+    Define a function to print the statistics
+    """
     print(f"Total file size: {total_size}")
     for status_code in sorted(lines_by_status.keys()):
         print(f"{status_code}: {lines_by_status[status_code]}")
