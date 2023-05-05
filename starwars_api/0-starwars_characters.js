@@ -19,8 +19,8 @@ request(`https://swapi.dev/api/films/${movieId}/`, (error, response, body) => {
 
   const movie = JSON.parse(body);
 
-  // Loop through the characters in the movie and print their names
-  movie.characters.forEach((characterUrl) => {
+  let characterCount = 0;
+  movie.characters.forEach((characterUrl, index) => {
     request(characterUrl, (error, response, body) => {
       if (error) {
         console.error(`Error: ${error.message}`);
@@ -33,7 +33,13 @@ request(`https://swapi.dev/api/films/${movieId}/`, (error, response, body) => {
       }
 
       const character = JSON.parse(body);
-      console.log(character.name);
+      characterCount++;
+      console.log(`${characterCount}. ${character.name}`);
+
+      if (characterCount === movie.characters.length) {
+        // All characters have been retrieved, exit the program
+        process.exit(0);
+      }
     });
   });
 });
