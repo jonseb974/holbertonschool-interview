@@ -9,17 +9,14 @@ from typing import List
 def makeChange(coins: List[int], total: int) -> int:
     """
     Determines the fewest number of coins needed to meet a given total amount.
-
     Args:
         coins (List[int]): A list of coin values in your possession.
         total (int): The total amount to be achieved.
-
     Returns:
         int: The fewest number of coins needed to meet the total amount.
              If the total is 0 or less, returns 0.
              If the total cannot be met by any number of coins you have,
              returns -1.
-
     Raises:
         None.
     """
