@@ -1,48 +1,32 @@
 #!/usr/bin/python3
 """
-Module: 0-making_change.py
+makeChange function determines the fewest number of coins needed
+to meet a given amount
 """
 
-from typing import List
 
-
-def makeChange(coins: List[int], total: int) -> int:
+def makeChange(coins, total):
     """
-    Determines the fewest number of coins needed to meet a given total amount.
+    Prototype: def makeChange(coins, total):
     Args:
-    coins (List[int]): A list of coin values in your possession.
-    total (int): The total amount to be achieved.
-    Returns:
-    int: The fewest number of coins needed to meet the total amount.
-    If the total is 0 or less, returns 0.
-    If the total cannot be met by any number of coins you have,
-    returns -1.
-    Raises:
-    None.
+      coins: list of values of coins in your possession
+        (the value of a coin will always be an int > 0)
+        (you can assume you have an infinite supply of each coin)
+      total: amount of money you want to make change for
+    Return:
+      if total is <= 0: return 0
+      if total cannot be met: return -1
+      if total can be met: return the minimum number of coins needed
+        to meet total.
     """
-
+    coins.sort(reverse=True)
+    count = 0
+    for coin in coins:
+        if total >= coin:
+            count += total // coin
+            total %= coin
+    if total == 0:
+        return count
     if total <= 0:
         return 0
-
-    # Create a list to store the fewest number of coins needed for each total
-    # amount
-    min_coins = [float('inf')] * (total + 1)
-    min_coins[0] = 0
-
-    # Iterate through all possible amounts from 1 to the given total
-    for amount in range(1, total + 1):
-        # Check each coin to see if it can be used to make change for
-        # the current amount
-        for coin in coins:
-            if coin <= amount:
-                # Calculate the number of coins needed for the current amount
-                num_coins = min_coins[amount - coin] + 1
-                if num_coins < min_coins[amount]:
-                    min_coins[amount] = num_coins
-
-    # If the minimum number of coins for the total amount is still infinity,
-    # it means it cannot be met
-    if min_coins[total] == float('inf'):
-        return -1
-    else:
-        return min_coins[total]
+    return -1
